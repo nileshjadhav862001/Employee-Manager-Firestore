@@ -27,8 +27,6 @@
     </div>
 </template>
 <script>
-// import { useCounterStore } from '../store/index'
-// import { mapActions } from 'pinia'
 import { db } from '../firebase'
 export default {
     name: 'EditEmployee',
@@ -50,14 +48,11 @@ export default {
                     vm.position = doc.data().position
                     console.log(vm.employee_id)
                     console.log(vm.name)
-                    // console.log(this.dept)
-                    // console.log(this.position)
                 })
             })
         })
     },
     methods: {
-        // ...mapActions(useCounterStore, ['fetchData', 'updateEmployee']),
         // fetchData() {
         //     db.collection('employees').where('employee_id', '==', this.$route.params.employee_id).get().then((querySnapshot) => {
         //         querySnapshot.forEach((doc) => {
@@ -84,9 +79,6 @@ export default {
                 })
         }
     },
-    computed: {
-        // ...mapState(useCounterStore, [])
-    }
 
 }
 </script>

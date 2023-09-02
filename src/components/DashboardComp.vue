@@ -44,14 +44,8 @@ export default {
     name: 'DashboardComp',
     data() {
         return {
-            // employees: [],
-            // unsubscribe: null,
-            // emp: {
-            //     employee_id: '',
-            //     name: '',
-            //     dept: '',
-            //     position: '',
-            // },
+            employees: [],
+            unsubscribe: null,
         }
     },
     unmounted() {

@@ -1,7 +1,7 @@
 <template>
     <div id="new-employee">
         <h1>New Employee</h1>
-        <form @submit.prevent="handleSaveEmployee" class="">
+        <form @submit.prevent="saveEmployee" class="">
             <div class="">
                 <div class="mb-3">
                     <label>Employee Id</label>
@@ -32,38 +32,28 @@
     </div>    
 </template>
 <script>
-import { mapActions, mapState } from 'pinia'
-import { useCounterStore } from '../store/index'
-// import { db } from '../firebase'
+import { db } from '../firebase'
 export default{
     name:'NewEmployee',
     data(){
         return{
-            // emp:{
-            //     employee_id: '',
-            //     name: '',
-            //     dept: '',
-            //     position: '',
-            // }
+            emp:{
+                employee_id: '',
+                name: '',
+                dept: '',
+                position: '',
+            }
         }
     },
     methods:{
-        ...mapActions(useCounterStore,['saveEmployee']),
-        handleSaveEmployee(){
-            this.saveEmployee()
-            this.$router.push('/')
+        saveEmployee(){
+            db.collection('employees').add(this.emp).then((docRef) =>  {
+                console.log(docRef)
+                this.$router.push('/')})
+            .catch(error => {
+                console.error('Error adding employee:', error)
+            })
         }
-        // saveEmployee(){
-        //     db.collection('employees').add(this.emp).then((docRef) =>  {
-        //         console.log(docRef)
-        //         this.$router.push('/')})
-        //     .catch(error => {
-        //         console.error('Error adding employee:', error)
-        //     })
-        // }
     },
-    computed:{
-        ...mapState(useCounterStore,['emp'])
-    }
 }
 </script>

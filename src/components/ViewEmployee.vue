@@ -31,8 +31,6 @@
 </template>
 
 <script>
-import { mapActions } from 'pinia'
-import { useCounterStore } from '../store/index'
 import { db } from '../firebase'
 export default {
     name: 'ViewEmployee',
@@ -60,11 +58,7 @@ export default {
         // '$route': 'fetchData'
     },
     methods: {
-        ...mapActions(useCounterStore, ['deletEmployee']),
-        // fetchEmployeeDataFromStore() {
-        //     const employee_id = this.$route.params.employee_id;
-        //     this.fetchData(employee_id);
-        // },
+
         // fetchData() {
         //     db.collection('employees').where('employee_id', '==', this.$route.params.employee_id).get().then((querySnapshot) => {
         //         querySnapshot.forEach((doc) => {
@@ -75,21 +69,18 @@ export default {
         //         })
         //     })
         // },
-        // deletEmployee() {
-        //     if (confirm('Are you sure')) {
-        //         db.collection('employees').where('employee_id', '==', this.$route.params.employee_id).get().then((querySnapshot) => {
-        //             querySnapshot.forEach((doc) => {
-        //                 console.log(doc)
-        //                 doc.ref.delete()
-        //                 this.$router.push('/')
-        //             })
-        //         })
-        //     }
+        deletEmployee() {
+            if (confirm('Are you sure')) {
+                db.collection('employees').where('employee_id', '==', this.$route.params.employee_id).get().then((querySnapshot) => {
+                    querySnapshot.forEach((doc) => {
+                        console.log(doc)
+                        doc.ref.delete()
+                        this.$router.push('/')
+                    })
+                })
+            }
 
-        // }
+        }
     },
-    computed: {
-        // ...mapState(useCounterStore, ['employee_id', 'name', 'dept', 'position'])
-    }
 }
 </script>
