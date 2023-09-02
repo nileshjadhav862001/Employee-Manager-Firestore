@@ -39,8 +39,6 @@
     </div>
 </template>
 <script>
-import { mapState, mapActions } from "pinia";
-import { useCounterStore } from '../store/index.js';
 import { db } from '../firebase.js'
 export default {
     name: 'DashboardComp',
@@ -64,29 +62,25 @@ export default {
         this.fetchEmployee()
     },
     methods: {
-        ...mapActions(useCounterStore,['fetchEmployee'])        
-        // fetchEmployee() {
-        //     this.unsubscribe = db.collection("employees").orderBy('employee_id').onSnapshot((querySnapshot) => {
-        //         this.employees = []
-        //         querySnapshot.forEach((doc) => {
-        //             const data = {
-        //                 'id': doc.id,
-        //                 'employee_id': doc.data().employee_id,
-        //                 'name': doc.data().name,
-        //                 'dept': doc.data().dept,
-        //                 'position': doc.data().position
+        fetchEmployee() {
+            this.unsubscribe = db.collection("employees").orderBy('employee_id').onSnapshot((querySnapshot) => {
+                this.employees = []
+                querySnapshot.forEach((doc) => {
+                    const data = {
+                        'id': doc.id,
+                        'employee_id': doc.data().employee_id,
+                        'name': doc.data().name,
+                        'dept': doc.data().dept,
+                        'position': doc.data().position
 
-        //             }
-        //             this.employees.push(data)
-        //         });
+                    }
+                    this.employees.push(data)
+                });
 
-        //     });
+            });
 
-        // },
+        },
     },
-    computed:{
-        ...mapState(useCounterStore,['employees'])
-    }
 }
 </script>
 
