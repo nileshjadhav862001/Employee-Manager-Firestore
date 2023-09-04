@@ -16,6 +16,12 @@ export const useCounterStore = defineStore('counter', {
     name: null,
     dept: null,
     position: null,
+    employeeObject: {
+      employee_id: null,
+      name: null,
+      dept: null,
+      position: null,
+    }
 
   }),
   getters: {
@@ -23,6 +29,7 @@ export const useCounterStore = defineStore('counter', {
   },
   actions: {
     fetchEmployee() {
+      console.log("thids is fetch employee function")
       db.collection("employees").orderBy('employee_id').onSnapshot((querySnapshot) => {
         this.employees = []
         querySnapshot.forEach((doc) => {
@@ -67,6 +74,7 @@ export const useCounterStore = defineStore('counter', {
         })
     },
     fetchData() {
+      console.log("this is fetch data function")
       db.collection('employees').where('employee_id', '==', router.params.employee_id).get().then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
           this.employee_id = doc.data().employee_id
@@ -77,14 +85,15 @@ export const useCounterStore = defineStore('counter', {
       })
     },
     updateEmployee(employee_id) {
-      db.collection('employees').where('employee_id', '==', employee_id).get()
+      console.log("enter in update function from store")
+      db.collection('employees').where('employee_id', '==', employee_id ).get()
         .then((querySnapshot) => {
           querySnapshot.forEach((doc) => {
             doc.ref.update({
-              employee_id: this.employee_id,
-              name: this.name,
-              dept: this.dept,
-              position: this.position,
+              employee_id: this.employeeObject.employee_id,
+              name: this.employeeObject.name,
+              dept: this.employeeObject.dept,
+              position: this.employeeObject.position,
             })
           })
         }).then(() => {
