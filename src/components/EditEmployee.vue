@@ -50,8 +50,6 @@ export default {
                     vm.position = doc.data().position
                     console.log(vm.employee_id)
                     console.log(vm.name)
-                    // console.log(this.dept)
-                    // console.log(this.position)
                 })
             })
         })

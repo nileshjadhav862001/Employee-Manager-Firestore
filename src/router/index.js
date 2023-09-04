@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import { auth } from '../firebase'
 // import firebase from 'firebase'
 
 import LoginForm from '../components/LoginForm.vue'
@@ -12,54 +13,71 @@ import ViewEmployee from '../components/ViewEmployee.vue'
 
 Vue.use(VueRouter)
 const router = new VueRouter({
-  routes:[
+  mode : 'history',
+  routes: [
     {
       path: '/loginform',
       name: 'LoginForm',
-      component: LoginForm
+      component: LoginForm,
+      meta: {
+        requireAuth: false
+      }
     },
     {
       path: '/registerform',
       name: 'RegisterForm',
-      component: RegisterForm
+      component: RegisterForm,
+      meta: {
+        requireAuth: false
+      }
     },
     {
       path: '/',
-      name:'dashboard',
+      name: 'dashboard',
       component: DashboardComp,
-      // meta:{
-      //   requireAuth : true
-      // }
+      meta: {
+        requireAuth: true
+      }
     },
     {
       path: '/new',
-      name:'new-employee',
-      component: NewEmployee
+      name: 'new-employee',
+      component: NewEmployee,
+      meta: {
+        requireAuth: true
+      }
     },
     {
       path: '/edit/:employee_id',
-      name:'edit-employee',
-      component: EditEmployee
+      name: 'edit-employee',
+      component: EditEmployee,
+      meta: {
+        requireAuth: true
+      }
     },
     {
       path: '/:employee_id',
-      name:'view-employee',
-      component: ViewEmployee
+      name: 'view-employee',
+      component: ViewEmployee,
+      meta: {
+        requireAuth: true
+      }
     },
-  ]  
+  ]
 })
 
-// router.beforeEach((to, from, next) => {
-//     const authenticatedUser = null
-//     const requireAuth = to.matched.some(record => record.meta.requireAuth);
 
-//     if(requireAuth && !authenticatedUser){
-//         next('loginform')
-//     }
-//     else{
-//         next()
-//     }
+router.beforeEach((to, from, next) => {
+  const authenticatedUser = auth.currentUser
+  const requireAuth = to.matched.some(record => record.meta.requireAuth);
 
-// })
+  if (requireAuth && !authenticatedUser) {
+    return('/loginform')
+  }
+  else {
+    next()
+  }
+
+})
 
 export default router

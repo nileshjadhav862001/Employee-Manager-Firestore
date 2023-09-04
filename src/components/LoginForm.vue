@@ -52,7 +52,7 @@ export default {
                 .then(userCredential => {
                     // User is signed in
                     console.log('User logged in:', userCredential.user);
-                    this.$router.replace('/')
+                    this.$router.push('/')
                     alert("Login Successfully")
                 })
                 .catch(error => {
