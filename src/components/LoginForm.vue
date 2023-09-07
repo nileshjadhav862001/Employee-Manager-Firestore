@@ -1,16 +1,8 @@
 <template>
     <div class="login-form">
         <h2>{{ title }}</h2>
-        <div class="navbar navbar-default">
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#" id="logout">Log Out</a></li>
-                </ul>
-            </div>
-        </div>
         <br>
         <div class="container">
-
             <form name="login_form" id="login_form" method="post" action="#" enctype="multipart/form-data">
                 <div class="col-sm-4">
                     <div class="form-group">
@@ -36,6 +28,7 @@
 
 <script>
 import { auth } from '../firebase'
+// import { db } from '../firebase'
 export default {
     name: 'LoginForm',
     data() {
@@ -53,14 +46,14 @@ export default {
                     // User is signed in
                     console.log('User logged in:', userCredential.user);
                     this.$router.push('/')
+
+
                     alert("Login Successfully")
                 })
                 .catch(error => {
                     alert('Login error:', error.message);
                 });
-
-        }
-    }
-
+        },
+    },
 }
 </script>

@@ -72,7 +72,7 @@ router.beforeEach((to, from, next) => {
   const requireAuth = to.matched.some(record => record.meta.requireAuth);
 
   if (requireAuth && !authenticatedUser) {
-    return('/loginform')
+    next('/loginform')
   }
   else {
     next()

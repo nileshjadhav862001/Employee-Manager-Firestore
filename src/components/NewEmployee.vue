@@ -52,7 +52,7 @@ export default{
         handleSaveEmployee(){
             this.saveEmployee()
             this.$router.push('/')
-        }
+        } 
         // saveEmployee(){
         //     db.collection('employees').add(this.emp).then((docRef) =>  {
         //         console.log(docRef)

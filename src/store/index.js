@@ -1,11 +1,13 @@
 import { defineStore } from 'pinia'
-import { db } from '@/firebase'
+import { db } from '../firebase'
+// import { auth } from '../firebase'
 import router from '../router/index'
 
 export const useCounterStore = defineStore('counter', {
   state: () => ({
     count: 0,
-    employees: [],
+    user:  null,
+    // employees: [],
     emp: {
       employee_id: '',
       name: '',
@@ -28,25 +30,27 @@ export const useCounterStore = defineStore('counter', {
 
   },
   actions: {
-    fetchEmployee() {
-      console.log("thids is fetch employee function")
-      db.collection("employees").orderBy('employee_id').onSnapshot((querySnapshot) => {
-        this.employees = []
-        querySnapshot.forEach((doc) => {
-          const data = {
-            'id': doc.id,
-            'employee_id': doc.data().employee_id,
-            'name': doc.data().name,
-            'dept': doc.data().dept,
-            'position': doc.data().position
-
-          }
-          this.employees.push(data)
-        });
-
-      });
-
+    setUser(user){
+      this.user = user
     },
+    // fetchEmployee() {
+    //   db.collection("employees").orderBy('employee_id').onSnapshot((querySnapshot) => {
+    //     this.employees = []
+    //     querySnapshot.forEach((doc) => {
+    //       const data = {
+    //         'id': doc.id,
+    //         'employee_id': doc.data().employee_id,
+    //         'name': doc.data().name,
+    //         'dept': doc.data().dept,
+    //         'position': doc.data().position
+
+    //       }
+    //       this.employees.push(data)
+    //     });
+
+    //   });
+
+    // },
     //view-employee
     deletEmployee(employee_id) {
       if (confirm('Are you sure')) {
@@ -73,20 +77,18 @@ export const useCounterStore = defineStore('counter', {
           console.error('Error adding employee:', error)
         })
     },
-    fetchData() {
-      console.log("this is fetch data function")
-      db.collection('employees').where('employee_id', '==', router.params.employee_id).get().then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          this.employee_id = doc.data().employee_id
-          this.name = doc.data().name
-          this.dept = doc.data().dept
-          this.position = doc.data().position
-        })
-      })
-    },
+    // fetchData() {
+    //   db.collection('employees').where('employee_id', '==', router.params.employee_id).get().then((querySnapshot) => {
+    //     querySnapshot.forEach((doc) => {
+    //       this.employee_id = doc.data().employee_id
+    //       this.name = doc.data().name
+    //       this.dept = doc.data().dept
+    //       this.position = doc.data().position
+    //     })
+    //   })
+    // },
     updateEmployee(employee_id) {
-      console.log("enter in update function from store")
-      db.collection('employees').where('employee_id', '==', employee_id ).get()
+      db.collection('employees').where('employee_id', '==', employee_id).get()
         .then((querySnapshot) => {
           querySnapshot.forEach((doc) => {
             doc.ref.update({
