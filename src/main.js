@@ -33,5 +33,3 @@ auth.onAuthStateChanged(user => {
     }).$mount('#app')
   }
 })
-
-

@@ -6,8 +6,7 @@ import router from '../router/index'
 export const useCounterStore = defineStore('counter', {
   state: () => ({
     count: 0,
-    user:  null,
-    // employees: [],
+    employees: [],
     emp: {
       employee_id: '',
       name: '',
@@ -30,27 +29,24 @@ export const useCounterStore = defineStore('counter', {
 
   },
   actions: {
-    setUser(user){
-      this.user = user
+    fetchEmployee() {
+      db.collection("employees").orderBy('employee_id').onSnapshot((querySnapshot) => {
+        this.employees = []
+        querySnapshot.forEach((doc) => {
+          const data = {
+            'id': doc.id,
+            'employee_id': doc.data().employee_id,
+            'name': doc.data().name,
+            'dept': doc.data().dept,
+            'position': doc.data().position
+
+          }
+          this.employees.push(data)
+        });
+
+      });
+
     },
-    // fetchEmployee() {
-    //   db.collection("employees").orderBy('employee_id').onSnapshot((querySnapshot) => {
-    //     this.employees = []
-    //     querySnapshot.forEach((doc) => {
-    //       const data = {
-    //         'id': doc.id,
-    //         'employee_id': doc.data().employee_id,
-    //         'name': doc.data().name,
-    //         'dept': doc.data().dept,
-    //         'position': doc.data().position
-
-    //       }
-    //       this.employees.push(data)
-    //     });
-
-    //   });
-
-    // },
     //view-employee
     deletEmployee(employee_id) {
       if (confirm('Are you sure')) {

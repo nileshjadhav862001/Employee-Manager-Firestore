@@ -40,16 +40,16 @@
     </div>
 </template>
 <script>
-// import { mapState } from "pinia";
-// import { useCounterStore } from '../store/index.js';
-import { db } from '../firebase.js'
+import { mapState, mapActions } from "pinia";
+import { useCounterStore } from '../store/index.js';
+// import { db } from '../firebase.js'
 import { auth } from '../firebase.js'
 export default {
     name: 'DashboardComp',
     data() {
         return {
-            currentUser: null,
-            employees: [],
+            // currentUser: null,
+            // employees: [],
             unsubscribe: null,
             // emp: {
             //     employee_id: '',
@@ -73,26 +73,26 @@ export default {
         // this.fetchEmployee()
     },
     methods: {
-        // ...mapActions(useCounterStore, ['fetchEmployee']),
-        fetchEmployee() {
+        ...mapActions(useCounterStore, ['fetchEmployee']),
+        // fetchEmployee() {
 
-            this.unsubscribe = db.collection("employees").where('userId', '==', this.currentUser.uid).onSnapshot((querySnapshot) => {
-                this.employees = []
-                querySnapshot.forEach((doc) => {
-                    const data = {
-                        'id': doc.id,
-                        'employee_id': doc.data().employee_id,
-                        'name': doc.data().name,
-                        'dept': doc.data().dept,
-                        'position': doc.data().position
-                    }
-                    this.employees.push(data)
-                });
-            });
-        },
+        //     this.unsubscribe = db.collection("employees").onSnapshot((querySnapshot) => {
+        //         this.employees = []
+        //         querySnapshot.forEach((doc) => {
+        //             const data = {
+        //                 'id': doc.id,
+        //                 'employee_id': doc.data().employee_id,
+        //                 'name': doc.data().name,
+        //                 'dept': doc.data().dept,
+        //                 'position': doc.data().position
+        //             }
+        //             this.employees.push(data)
+        //         });
+        //     });
+        // },
     },
     computed: {
-        // ...mapState(useCounterStore, ['employees']),
+        ...mapState(useCounterStore, ['employees']),
 
 
     }
